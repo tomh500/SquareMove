@@ -1,4 +1,4 @@
-name: xuan9build
+name: FreeMove_Square Build Madness
 
 on:
   push:
@@ -17,21 +17,18 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      # 拉取代码
-      - name: Checkout repository
+      - name: 🌀疯狂拉取我的代码到平行宇宙🛸
         uses: actions/checkout@v4
 
-      # 安装并加入 MSBuild
-      - name: Setup MSBuild
+      - name: ⚡召唤MSBuild神器，让它为我而战⚔️
         uses: microsoft/setup-msbuild@v2
 
-      # 构建工程
-      - name: Build with MSBuild
+      - name: 💥让FreeMove_Square.exe在地狱火焰中诞生🔥
         run: |
           msbuild FreeMove_Square.vcxproj /p:Configuration=Release /p:Platform=x64 /m
 
-      - name: Upload build artifacts
+      - name: 🔥把FreeMove_Square.exe扔进GitHub的黑洞里让它永生吧！！！💀👹
         uses: actions/upload-artifact@v4
         with:
           name: FreeMove_Square-Build
-          path: FreeMove_Square\x64\Release\FreeMove_Square.exe
+          path: FreeMove_Square/x64/Release/**/*.exe
