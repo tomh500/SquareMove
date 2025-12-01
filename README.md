@@ -6,7 +6,7 @@ FreeMoveSQ
 FreeMove-SQ  
 FreeMove_SQ  
 FreeMove Square  
-FreeMoveSquare 
+FreeMoveSquare  
 FreeMove
 
 ---
