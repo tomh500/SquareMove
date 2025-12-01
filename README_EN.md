@@ -19,6 +19,15 @@ It safely moves content and automatically creates system links so that software 
 
 ---
 
+### ⬇️ Get FreeMove_Square
+
+**Click here to download the latest automated build (Windows x64):**
+[➡️ Go to GitHub Actions Download Page](https://github.com/tomh500/FreeMove_Square/actions/)
+
+> **Note:** After navigating to the page, please select the latest **Kawaii Build run**, and then look for the **Artifacts** (FreeMove_Square-Build) on the right side to start your download.
+
+---
+
 ## Features
 
 FreeMove_Square allows you to:
