@@ -3,34 +3,39 @@ name: Kawaii Build
 on:
   push:
     paths:
+      # 修正后的路径列表 (使用新目录结构)
       - '**/*.gitaction'
-      - '**/*.cpp'
-      - '**/*.h'
+      - 'src/**/*.cpp'
+      - 'src/**/*.h'
       - '**/*.vcxproj'
+      - '**/*.rc' 
   pull_request:
     paths:
       - '**/*.gitaction'
-      - '**/*.cpp'
-      - '**/*.h'
+      - 'src/**/*.cpp'
+      - 'src/**/*.h'
       - '**/*.vcxproj'
+      - '**/*.rc'
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-      - name: 🌀疯狂拉取我的代码到平行宇宙🛸
+      - name: 32768次心跳只为见你一面💓
         uses: actions/checkout@v4
 
-      - name: ⚡召唤MSBuild神器，让它为我而战⚔️
+      - name: 当我默数完十个数字时你会出现在我面前🔢
         uses: microsoft/setup-msbuild@v2
 
-      - name: 💥让FreeMove_Square.exe在地狱火焰中诞生🔥
+      - name: 即使你已经离开我，我也会继续为你编译代码💔
+        # 在这里运行 msbuild，它将在项目的根目录下生成 x64\Release 文件夹
         run: |
           msbuild FreeMove_Square.vcxproj /p:Configuration=Release /p:Platform=x64 /m
 
-      - name: 🔥把FreeMove_Square.exe扔进GitHub的黑洞里让它永生吧！！！💀👹
+      - name: 就让我们的故事永远留在这个编译的瞬间吧📦
         uses: actions/upload-artifact@v4
         with:
           name: FreeMove_Square-Build
-          path: FreeMove_Square\x64\Release\
+          # 核心修正：路径应为 MSBuild 默认的输出目录，通常是项目根目录下的 x64/Release/
+          path: x64/Release/

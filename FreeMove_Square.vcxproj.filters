@@ -56,6 +56,12 @@
     <None Include="assets\conver_logo.py">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="README.md">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="README_EN.md">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\FileTools.h">
