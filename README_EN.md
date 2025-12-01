@@ -1,5 +1,14 @@
 # FreeMove_Square
 
+
+## Project name aliases
+
+FreeMoveSQ  
+FreeMove-SQ  
+FreeMove_SQ  
+FreeMove Square  
+FreeMoveSquare 
+FreeMove
 [中文说明](README.md)
 
 FreeMove_Square is a Windows utility that allows you to **move files and directories without breaking programs, shortcuts, or system paths**.
