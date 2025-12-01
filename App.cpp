@@ -27,6 +27,96 @@
             return RegisterClassExW(&wc);
         }
 
+        std::wstring LoadAboutText(HINSTANCE hInst)
+        {
+            //MessageBoxW(NULL, L"LoadAboutText called", L"DEBUG", 0);
+            HRSRC hRes = FindResourceW(hInst, MAKEINTRESOURCE(IDR_ABOUTTXT), RT_RCDATA);
+            if (!hRes) {
+                MessageBoxW(NULL, L"FindResource FAILED", L"ERR", 0);
+                return L"";
+            }
+
+            HGLOBAL hData = LoadResource(hInst, hRes);
+            if (!hData) return L"";
+
+            DWORD size = SizeofResource(hInst, hRes);
+            if (!size) return L"";
+
+            const char* pData = static_cast<const char*>(LockResource(hData));
+            if (!pData) return L"";
+
+            int wlen = MultiByteToWideChar(CP_UTF8, 0, pData, size, nullptr, 0);
+            std::wstring text(wlen, 0);
+            MultiByteToWideChar(CP_UTF8, 0, pData, size, &text[0], wlen);
+
+            return text;
+        }
+
+        INT_PTR CALLBACK AboutDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+        {
+            switch (message)
+            {
+            case WM_INITDIALOG:
+            {
+                std::wstring aboutText = LoadAboutText((HINSTANCE)GetWindowLongPtr(hDlg, GWLP_HINSTANCE));
+                SetDlgItemTextW(hDlg, IDC_ABOUT_TEXT, aboutText.c_str());
+
+                HWND hText = GetDlgItem(hDlg, IDC_ABOUT_TEXT);
+
+                HFONT hFont = (HFONT)SendMessage(hText, WM_GETFONT, 0, 0);
+                HDC hdc = GetDC(hDlg);
+                SelectObject(hdc, hFont);
+
+                const int ICON_LEFT = 14;
+                const int ICON_WIDTH = 21;
+                const int ICON_GAP = 10;
+
+                const int TEXT_LEFT = ICON_LEFT + ICON_WIDTH + ICON_GAP + 40;
+
+                RECT rc = { 0, 0, 500, 0 };
+                DrawTextW(hdc, aboutText.c_str(), -1, &rc, DT_CALCRECT | DT_WORDBREAK);
+
+                ReleaseDC(hDlg, hdc);
+
+                // 移动文本框
+                MoveWindow(hText,
+                    TEXT_LEFT,
+                    14,
+                    rc.right + 10,
+                    rc.bottom + 10,
+                    TRUE);
+
+
+                // Resize 窗口
+                MoveWindow(hDlg,
+                    0,
+                    0,
+                    TEXT_LEFT + rc.right + 20,
+                    rc.bottom + 60,
+                    TRUE);
+
+
+
+                return TRUE;
+            }
+
+            case WM_COMMAND:
+                if (LOWORD(wParam) == IDCANCEL)   // 右上角 X
+                {
+                    EndDialog(hDlg, 0);
+                    return TRUE;
+                }
+                break;
+
+            case WM_CLOSE:   // 防止系统绕过 WM_COMMAND
+                EndDialog(hDlg, 0);
+                return TRUE;
+            }
+            return FALSE;
+        }
+
+
+
         BOOL CApp::Init(HINSTANCE h, int cmd)
         {
             hInst = h;
@@ -66,6 +156,8 @@
                 HMENU hHelpMenu = GetSubMenu(hMenu, 1);
                 ModifyMenuW(hMenu, 0, MF_BYPOSITION | MF_STRING, 0, g_strings.Menu_File.c_str());
                 ModifyMenuW(hMenu, 1, MF_BYPOSITION | MF_STRING, 1, g_strings.Menu_Help.c_str());
+
+
 
                 const int margin = 10;
                 const int editHeight = 24;
@@ -168,10 +260,11 @@
                 int wmId = LOWORD(w);
                 switch (wmId)
                 {
-                    // 顶部菜单
+                    
                 case IDM_ABOUT:
-                    DialogBox(g_app.hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, ::About);
+                    DialogBox(g_app.hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, AboutDlgProc);
                     break;
+
                 case IDM_EXIT:
                     DestroyWindow(hWnd);
                     break;

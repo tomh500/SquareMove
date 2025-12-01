@@ -1,4 +1,4 @@
-#include "FileTools.h"
+ï»¿#include "FileTools.h"
 #include <filesystem>
 #include <Windows.h>
 #include <thread>
@@ -21,14 +21,14 @@ namespace FileTools {
 
     bool IsSubPathOrSame(const fs::path& base, const fs::path& target)
     {
-        // ¾ø¶ÔÂ·¾¶
+        // ç»å¯¹è·¯å¾„
         fs::path absBase = fs::absolute(base);
         fs::path absTarget = fs::absolute(target);
 
-        // ÍêÈ«ÏàµÈ
+        // å®Œå…¨ç›¸ç­‰
         if (absBase == absTarget) return true;
 
-        // ÅĞ¶ÏÊÇ·ñÊÇ×ÓÂ·¾¶
+        // åˆ¤æ–­æ˜¯å¦æ˜¯å­è·¯å¾„
         auto baseIt = absBase.begin();
         auto targetIt = absTarget.begin();
 
@@ -38,7 +38,7 @@ namespace FileTools {
             ++targetIt;
         }
 
-        return baseIt == absBase.end(); // base ÍêÈ«Æ¥Åä target µÄÇ°×º
+        return baseIt == absBase.end(); // base å®Œå…¨åŒ¹é… target çš„å‰ç¼€
     }
 
     bool CopyItem(const std::wstring& src, const std::wstring& dstDir) {
@@ -56,31 +56,9 @@ namespace FileTools {
         catch (...) { return false; }
     }
 
-    bool CopyItemMT(const std::wstring& src, const std::wstring& dstDir)
-    {
-        namespace fs = std::filesystem;
-        try {
-            fs::path srcPath(src);
-            fs::path dstPath = fs::path(dstDir) / srcPath.filename();
 
-            if (fs::is_directory(srcPath)) {
-                std::vector<std::thread> threads;
-                for (auto& entry : fs::directory_iterator(srcPath)) {
-                    threads.emplace_back([&] {
-                        CopyItem(entry.path().wstring(), dstPath.wstring());
-                        });
-                }
-                for (auto& t : threads) t.join();
-            }
-            else {
-                fs::copy_file(srcPath, dstPath, fs::copy_options::overwrite_existing);
-            }
-            return true;
-        }
-        catch (...) { return false; }
-    }
 
-    // µİ¹é¸´ÖÆÄ¿Â¼£¬µ÷ÓÃ»Øµ÷¸üĞÂ½ø¶È
+    // é€’å½’å¤åˆ¶ç›®å½•ï¼Œè°ƒç”¨å›è°ƒæ›´æ–°è¿›åº¦
     bool CopyItemWithProgress(const std::wstring& src, const std::wstring& dstDir,
         std::function<void(size_t done, size_t total)> progressCallback)
     {
@@ -91,7 +69,7 @@ namespace FileTools {
 
             std::vector<fs::path> allFiles;
 
-            // µİ¹éÍ³¼ÆÎÄ¼ş
+            // é€’å½’ç»Ÿè®¡æ–‡ä»¶
             for (auto& entry : fs::recursive_directory_iterator(srcPath)) {
                 if (fs::is_regular_file(entry.path()))
                     allFiles.push_back(entry.path());
@@ -105,7 +83,7 @@ namespace FileTools {
                 fs::path target = dstPath / relative;
                 fs::create_directories(target.parent_path());
 
-                // ·Ö¿é¸´ÖÆÎÄ¼ş£¬Ã¿¿é 1MB
+                // åˆ†å—å¤åˆ¶æ–‡ä»¶ï¼Œæ¯å— 1MB
                 std::ifstream ifs(file, std::ios::binary);
                 std::ofstream ofs(target, std::ios::binary);
                 constexpr size_t bufSize = 1024 * 1024;
@@ -113,12 +91,12 @@ namespace FileTools {
 
                 while (ifs.read(buffer.get(), bufSize) || ifs.gcount() > 0) {
                     ofs.write(buffer.get(), ifs.gcount());
-                    progressCallback(done, total); // ¸ßÆµ¸üĞÂ
+                    progressCallback(done, total); // é«˜é¢‘æ›´æ–°
                 }
 
 
                 done++;
-                progressCallback(done, total); // ÎÄ¼şÍê³ÉÒ»´Î
+                progressCallback(done, total); // æ–‡ä»¶å®Œæˆä¸€æ¬¡
             }
 
             return true;
@@ -159,64 +137,88 @@ namespace FileTools {
     MoveResult MoveWithLink(const std::wstring& src, const std::wstring& dstDir, bool hideOrigin)
     {
         MoveResult res{ false, L"" };
+
         fs::path srcPath(src);
         fs::path dstPath = fs::path(dstDir) / srcPath.filename();
 
-        // 1. ¼ì²éÄ¿±êÊÇ·ñ´æÔÚÍ¬ÃûÎÄ¼ş¼Ğ»òÎÄ¼ş
+        // 1. ç›®æ ‡å­˜åœ¨
         if (fs::exists(dstPath)) {
             res.message = (g_currentLang == LANG_ZH_CN) ?
-                L"Ä¿±êÂ·¾¶ÒÑ´æÔÚÍ¬ÃûÎÄ¼ş»òÄ¿Â¼" :
+                L"ç›®æ ‡è·¯å¾„å·²å­˜åœ¨åŒåæ–‡ä»¶æˆ–ç›®å½•" :
                 L"Target path already exists";
             blockmsg = 1;
             return res;
         }
 
-        // 2. ¼ì²éÄ¿±êÂ·¾¶ÊÇ·ñÎªÔ´Â·¾¶×ÔÉí»ò×ÓÂ·¾¶
+        // 2. ç›®æ ‡æ˜¯å­è·¯å¾„
         if (IsSubPathOrSame(srcPath, dstPath)) {
             res.message = (g_currentLang == LANG_ZH_CN) ?
-                L"Ä¿±êÂ·¾¶ÎªÔ´Â·¾¶×ÔÉí»òÆä×ÓÄ¿Â¼" :
+                L"ç›®æ ‡è·¯å¾„ä¸ºæºè·¯å¾„è‡ªèº«æˆ–å…¶å­ç›®å½•" :
                 L"Target path is inside source path or same as source";
             blockmsg = 1;
             return res;
         }
 
-        // 3. ÏÈ¸´ÖÆ
+        // ========================
+        // å¿«é€Ÿæ¨¡å¼ï¼šç›´æ¥å‰ªåˆ‡
+        // ========================
         if (FastMode) {
-            // ¶àÏß³Ì¸´ÖÆ
-            if (!CopyItemMT(src, dstDir)) {
-                res.message = L"¸´ÖÆÊ§°Ü";
+            try {
+                fs::rename(srcPath, dstPath);  
+            }
+            catch (...) {
+                res.message = (g_currentLang == LANG_ZH_CN) ?
+                    L"å‰ªåˆ‡å¤±è´¥" :
+                    L"Move failed";
+                return res;
+            }
+            std::wstring errMsg;
+            if (!CreateLink(src, dstPath.wstring(), fs::is_directory(dstPath), errMsg)) {
+                res.message = errMsg;
+                return res;
+            }
+
+            if (hideOrigin)
+                SetHidden(src);
+
+            res.success = true;
+            return res;
+        }
+        else {
+
+            // ========================
+            // æ™®é€šæ¨¡å¼ï¼šå®Œæ•´å¤åˆ¶ + è¿›åº¦ + åˆ é™¤æº
+            // ========================
+            size_t totalFiles = 0;
+            for (auto& entry : fs::recursive_directory_iterator(srcPath))
+                if (fs::is_regular_file(entry.path())) totalFiles++;
+
+            HWND hProgressWnd = ShowMoveProgress(nullptr, L"ç§»åŠ¨ä¸­...", totalFiles);
+            size_t done = 0;
+
+            if (!CopyItemWithProgress(src, dstDir, [&](size_t fileDone, size_t fileTotal) {
+                done = fileDone;
+                UpdateMoveProgress(done, totalFiles);
+                })) {
+                CloseMoveProgress();
+                res.message = (g_currentLang == LANG_ZH_CN) ? L"å¤åˆ¶å¤±è´¥" : L"Copy failed";
                 return res;
             }
         }
-        else {
-            size_t totalFiles = 0;
-            for (auto& entry : std::filesystem::recursive_directory_iterator(srcPath))
-                if (std::filesystem::is_regular_file(entry.path())) totalFiles++;
 
-            HWND hProgressWnd = ShowMoveProgress(nullptr, L"ÒÆ¶¯ÖĞ...", totalFiles);
-            size_t done = 0;
+        CloseMoveProgress();
 
-            CopyItemWithProgress(src, dstDir, [&](size_t fileDone, size_t fileTotal) {
-                done = fileDone;
-                UpdateMoveProgress(done, totalFiles);
-                });
-
-            CloseMoveProgress();
-
-        }
-
-        // 4. É¾³ıÔ´ÎÄ¼ş/Ä¿Â¼
+        // åˆ é™¤åŸç›®å½•
         if (!RemoveItem(src)) {
-            res.message = (g_currentLang == LANG_ZH_CN) ? L"É¾³ıÔ´ÎÄ¼ş/Ä¿Â¼Ê§°Ü" : L"Remove original failed";
+            res.message = (g_currentLang == LANG_ZH_CN) ? L"åˆ é™¤æºæ–‡ä»¶/ç›®å½•å¤±è´¥" : L"Remove original failed";
             blockmsg = 0;
             return res;
         }
 
-        // 5. ´´½¨·ûºÅÁ´½Ó
+        // åˆ›å»ºç¬¦å·é“¾æ¥
         std::wstring errMsg;
-        if (!CreateLink(src, dstPath, fs::is_directory(dstPath), errMsg)) {
+        if (!CreateLink(src, dstPath.wstring(), fs::is_directory(dstPath), errMsg)) {
             res.message = errMsg;
-            // ³·Ïú£º°²È«¸´ÖÆ»ØÔ´Ä¿Â¼
             fs::path safeRestore = srcPath.parent_path() / (srcPath.filename().wstring() + L"_restore");
             CopyItem(dstPath.wstring(), safeRestore.wstring());
             return res;
@@ -227,6 +229,7 @@ namespace FileTools {
         res.success = true;
         return res;
     }
+
 
 
 }

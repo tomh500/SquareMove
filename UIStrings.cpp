@@ -18,7 +18,7 @@ namespace App {
                 locale.find(L"zh-HK") == 0 ||
                 locale.find(L"zh-TW") == 0 ||
                 locale.find(L"zh-MO") == 0) {
-                zw
+                zw1
             }
         }
         return LANG_EN;

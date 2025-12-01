@@ -48,3 +48,6 @@
 #define IDM_FASTMODE   40001
 #define IDM_HIDEORIGIN 40002
 
+#define IDC_ABOUT_TEXT 3001
+
+
