@@ -33,4 +33,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: FreeMove_Square-Build
-          path: FreeMove_Square/x64/Release/**/*.exe
+          path: FreeMove_Square\x64\Release\
