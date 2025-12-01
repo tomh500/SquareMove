@@ -16,6 +16,13 @@ namespace App {
         wstring MoveFailed;      
         wstring UndoConfirm;     
         wstring RequireAdmin;   
+        wstring Menu_FastMode;
+        wstring Menu_HideOrigin;
+        wstring Menu_File;
+        wstring Menu_Help;
+        wstring Menu_About;
+        wstring Menu_Exit;
+
     };
 
 

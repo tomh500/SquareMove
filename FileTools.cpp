@@ -1,11 +1,20 @@
 #include "FileTools.h"
 #include <filesystem>
 #include <Windows.h>
+#include <thread>
+#include <vector>
+#include <fstream>
+#include <functional>
+
 #include "Flag.h"
 #include "UIStrings.h" 
+#include "MoveProgressWnd.h"
 using namespace App;
 
 int FileTools::blockmsg = 0;
+
+
+
 namespace FileTools {
 
     namespace fs = std::filesystem;
@@ -46,6 +55,80 @@ namespace FileTools {
         }
         catch (...) { return false; }
     }
+
+    bool CopyItemMT(const std::wstring& src, const std::wstring& dstDir)
+    {
+        namespace fs = std::filesystem;
+        try {
+            fs::path srcPath(src);
+            fs::path dstPath = fs::path(dstDir) / srcPath.filename();
+
+            if (fs::is_directory(srcPath)) {
+                std::vector<std::thread> threads;
+                for (auto& entry : fs::directory_iterator(srcPath)) {
+                    threads.emplace_back([&] {
+                        CopyItem(entry.path().wstring(), dstPath.wstring());
+                        });
+                }
+                for (auto& t : threads) t.join();
+            }
+            else {
+                fs::copy_file(srcPath, dstPath, fs::copy_options::overwrite_existing);
+            }
+            return true;
+        }
+        catch (...) { return false; }
+    }
+
+    // 递归复制目录，调用回调更新进度
+    bool CopyItemWithProgress(const std::wstring& src, const std::wstring& dstDir,
+        std::function<void(size_t done, size_t total)> progressCallback)
+    {
+        namespace fs = std::filesystem;
+        try {
+            fs::path srcPath(src);
+            fs::path dstPath = fs::path(dstDir) / srcPath.filename();
+
+            std::vector<fs::path> allFiles;
+
+            // 递归统计文件
+            for (auto& entry : fs::recursive_directory_iterator(srcPath)) {
+                if (fs::is_regular_file(entry.path()))
+                    allFiles.push_back(entry.path());
+            }
+
+            size_t total = allFiles.size();
+            size_t done = 0;
+
+            for (auto& file : allFiles) {
+                fs::path relative = file.lexically_relative(srcPath);
+                fs::path target = dstPath / relative;
+                fs::create_directories(target.parent_path());
+
+                // 分块复制文件，每块 1MB
+                std::ifstream ifs(file, std::ios::binary);
+                std::ofstream ofs(target, std::ios::binary);
+                constexpr size_t bufSize = 1024 * 1024;
+                std::unique_ptr<char[]> buffer(new char[bufSize]);
+
+                while (ifs.read(buffer.get(), bufSize) || ifs.gcount() > 0) {
+                    ofs.write(buffer.get(), ifs.gcount());
+                    progressCallback(done, total); // 高频更新
+                }
+
+
+                done++;
+                progressCallback(done, total); // 文件完成一次
+            }
+
+            return true;
+        }
+        catch (...) { return false; }
+    }
+
+
+
+
 
     bool RemoveItem(const std::wstring& path) {
         try {
@@ -98,10 +181,28 @@ namespace FileTools {
         }
 
         // 3. 先复制
-        if (!CopyItem(src, dstDir)) {
-            res.message = (g_currentLang == LANG_ZH_CN) ? L"复制失败" : L"Copy failed";
-            blockmsg = 0;
-            return res;
+        if (FastMode) {
+            // 多线程复制
+            if (!CopyItemMT(src, dstDir)) {
+                res.message = L"复制失败";
+                return res;
+            }
+        }
+        else {
+            size_t totalFiles = 0;
+            for (auto& entry : std::filesystem::recursive_directory_iterator(srcPath))
+                if (std::filesystem::is_regular_file(entry.path())) totalFiles++;
+
+            HWND hProgressWnd = ShowMoveProgress(nullptr, L"移动中...", totalFiles);
+            size_t done = 0;
+
+            CopyItemWithProgress(src, dstDir, [&](size_t fileDone, size_t fileTotal) {
+                done = fileDone;
+                UpdateMoveProgress(done, totalFiles);
+                });
+
+            CloseMoveProgress();
+
         }
 
         // 4. 删除源文件/目录

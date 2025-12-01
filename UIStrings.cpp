@@ -1,6 +1,8 @@
 #include "UIStrings.h"
 #include "Resource.h"
 #include <vector>
+#define zw return LANG_ZH_CN;
+#define zw1 return LANG_EN;
 
 namespace App {
 
@@ -16,7 +18,7 @@ namespace App {
                 locale.find(L"zh-HK") == 0 ||
                 locale.find(L"zh-TW") == 0 ||
                 locale.find(L"zh-MO") == 0) {
-                return LANG_ZH_CN;
+                zw
             }
         }
         return LANG_EN;
@@ -78,19 +80,37 @@ namespace App {
 
         if (g_currentLang == LANG_ZH_CN) {
             g_strings.title = ParseIni(langData, L"ZH", L"Title");
-            g_strings.SelectPath_Button = ParseIni(langData, L"ZH", L"SelectButton");
+            g_strings.SelectPath_Button = ParseIni(langData, L"ZH", L"SelectPathButton");
+            g_strings.SelectFile_Button = ParseIni(langData, L"ZH", L"SelectFileButton");
             g_strings.MoveButton = ParseIni(langData, L"ZH", L"MoveButton");
             g_strings.MoveFailed = ParseIni(langData, L"ZH", L"MoveFailed");
             g_strings.UndoConfirm = ParseIni(langData, L"ZH", L"UndoConfirm");
             g_strings.RequireAdmin = ParseIni(langData, L"ZH", L"RequireAdmin");
+            g_strings.Menu_FastMode = ParseIni(langData, L"ZH", L"FastMode");
+            g_strings.Menu_HideOrigin = ParseIni(langData, L"ZH", L"HideOrigin");
+            g_strings.Menu_File = ParseIni(langData, L"ZH", L"Menu_File");
+            g_strings.Menu_Help = ParseIni(langData, L"ZH", L"Menu_Help");
+            g_strings.Menu_About = ParseIni(langData, L"ZH", L"Menu_About");
+            g_strings.Menu_Exit = ParseIni(langData, L"ZH", L"Menu_Exit");
+            g_strings.Menu_FastMode = ParseIni(langData, L"ZH", L"Menu_FastMode");
+            g_strings.Menu_HideOrigin = ParseIni(langData, L"ZH", L"Menu_HideOrigin");
         }
         else {
             g_strings.title = ParseIni(langData, L"EN", L"Title");
-            g_strings.SelectPath_Button = ParseIni(langData, L"EN", L"SelectButton");
+            g_strings.SelectPath_Button = ParseIni(langData, L"EN", L"SelectPathButton");
+            g_strings.SelectFile_Button = ParseIni(langData, L"EN", L"SelectFileButton");
             g_strings.MoveButton = ParseIni(langData, L"EN", L"MoveButton");
             g_strings.MoveFailed = ParseIni(langData, L"EN", L"MoveFailed");
             g_strings.UndoConfirm = ParseIni(langData, L"EN", L"UndoConfirm");
             g_strings.RequireAdmin = ParseIni(langData, L"EN", L"RequireAdmin");
+            g_strings.Menu_FastMode = ParseIni(langData, L"EN", L"FastMode");
+            g_strings.Menu_HideOrigin = ParseIni(langData, L"EN", L"HideOrigin");
+            g_strings.Menu_File = ParseIni(langData, L"EN", L"Menu_File");
+            g_strings.Menu_Help = ParseIni(langData, L"EN", L"Menu_Help");
+            g_strings.Menu_About = ParseIni(langData, L"EN", L"Menu_About");
+            g_strings.Menu_Exit = ParseIni(langData, L"EN", L"Menu_Exit");
+            g_strings.Menu_FastMode = ParseIni(langData, L"EN", L"Menu_FastMode");
+            g_strings.Menu_HideOrigin = ParseIni(langData, L"EN", L"Menu_HideOrigin");
         }
 
 
@@ -98,10 +118,10 @@ namespace App {
         if (g_strings.title.empty())
         {
              g_strings.title = (g_currentLang == LANG_ZH_CN) ? L"无损平方移动工具（解析失败）" : L"FreeMoveSQ";
-			 MessageBoxW(NULL, (g_currentLang == LANG_ZH_CN) ? L"语言资源加载失败，使用默认字符串。" : L"Failed to load language resources, using default strings.", g_strings.title.c_str(), MB_OK | MB_ICONWARNING);
+			 MessageBoxW(NULL, (g_currentLang == LANG_ZH_CN) ? L"语言资源加载失败。" : L"Failed to load language resources, using default strings.", g_strings.title.c_str(), MB_OK | MB_ICONWARNING);
         }
            
-
+        /*
         if (g_strings.SelectPath_Button.empty())
             g_strings.SelectPath_Button = (g_currentLang == LANG_ZH_CN) ? L"选择路径" : L"Select Path";
 
@@ -120,6 +140,11 @@ namespace App {
         if (g_strings.RequireAdmin.empty())
             g_strings.RequireAdmin = (g_currentLang == LANG_ZH_CN) ? L"点击以管理员身份运行" : L"Require Admin Permission";
 
+        if (g_strings.Menu_FastMode.empty())
+            g_strings.Menu_FastMode = (g_currentLang == LANG_ZH_CN) ? L"快速模式" : L"Fast Mode";
+        if (g_strings.Menu_HideOrigin.empty())
+            g_strings.Menu_HideOrigin = (g_currentLang == LANG_ZH_CN) ? L"将原先目录隐藏" : L"Set original path to hidden";
 
+            */
     }
 }

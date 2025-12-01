@@ -133,7 +133,7 @@
     <ClInclude Include="Flag.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="FreeMove_Square.h" />
-    <ClInclude Include="Localization.h" />
+    <ClInclude Include="MoveProgressWnd.h" />
     <ClInclude Include="PathDialog.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
@@ -145,6 +145,7 @@
     <ClCompile Include="DragDrop.cpp" />
     <ClCompile Include="FreeMove_Square.cpp" />
     <ClCompile Include="FileTools.cpp" />
+    <ClCompile Include="MoveProgressWnd.cpp" />
     <ClCompile Include="PathDialog.cpp" />
     <ClCompile Include="UIStrings.cpp" />
   </ItemGroup>

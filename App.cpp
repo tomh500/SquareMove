@@ -30,7 +30,7 @@
         BOOL CApp::Init(HINSTANCE h, int cmd)
         {
             hInst = h;
-            RECT rc = { 0, 0, 700, 180 }; // 高度增加，容纳 Move 按钮
+            RECT rc = { 0, 0, 700, 120 }; // 高度增加，容纳 Move 按钮
             AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, TRUE);
 
             HWND hWnd = CreateWindowW(szWindowClass,
@@ -52,8 +52,20 @@
             {
             case WM_CREATE:
             {
+
                 DragAcceptFiles(hWnd, TRUE);
-                DragAcceptFiles(hWnd, TRUE);
+                CheckMenuItem(GetMenu(hWnd), IDM_FASTMODE, MF_BYCOMMAND | (FastMode ? MF_CHECKED : MF_UNCHECKED));
+                CheckMenuItem(GetMenu(hWnd), IDM_HIDEORIGIN, MF_BYCOMMAND | (HideOrigin ? MF_CHECKED : MF_UNCHECKED));
+                ModifyMenuW(GetMenu(hWnd), IDM_FASTMODE, MF_BYCOMMAND | MF_STRING, IDM_FASTMODE, g_strings.Menu_FastMode.c_str());
+                ModifyMenuW(GetMenu(hWnd), IDM_HIDEORIGIN, MF_BYCOMMAND | MF_STRING, IDM_HIDEORIGIN, g_strings.Menu_HideOrigin.c_str());
+                ModifyMenuW(GetMenu(hWnd), IDM_EXIT, MF_BYCOMMAND | MF_STRING, IDM_EXIT, g_strings.Menu_Exit.c_str());
+                ModifyMenuW(GetMenu(hWnd), IDM_ABOUT, MF_BYCOMMAND | MF_STRING, IDM_ABOUT, g_strings.Menu_About.c_str());
+
+                HMENU hMenu = GetMenu(hWnd);
+                HMENU hFileMenu = GetSubMenu(hMenu, 0);
+                HMENU hHelpMenu = GetSubMenu(hMenu, 1);
+                ModifyMenuW(hMenu, 0, MF_BYPOSITION | MF_STRING, 0, g_strings.Menu_File.c_str());
+                ModifyMenuW(hMenu, 1, MF_BYPOSITION | MF_STRING, 1, g_strings.Menu_Help.c_str());
 
                 const int margin = 10;
                 const int editHeight = 24;
@@ -162,6 +174,14 @@
                     break;
                 case IDM_EXIT:
                     DestroyWindow(hWnd);
+                    break;
+                case IDM_FASTMODE:
+                    FastMode = !FastMode; // 切换状态
+                    CheckMenuItem(GetMenu(hWnd), IDM_FASTMODE, MF_BYCOMMAND | (FastMode ? MF_CHECKED : MF_UNCHECKED));
+                    break;
+                case IDM_HIDEORIGIN:
+                    HideOrigin = !HideOrigin;
+                    CheckMenuItem(GetMenu(hWnd), IDM_HIDEORIGIN, MF_BYCOMMAND | (HideOrigin ? MF_CHECKED : MF_UNCHECKED));
                     break;
 
                     // 按钮

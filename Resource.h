@@ -44,3 +44,7 @@
 
 #define IDR_LANG_INI 2001
 #define IDR_ABOUT_TXT 2002
+
+#define IDM_FASTMODE   40001
+#define IDM_HIDEORIGIN 40002
+
