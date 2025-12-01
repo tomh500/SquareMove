@@ -6,6 +6,7 @@
     #include "Resource.h"
     #include "FileTools.h" 
     #include "Flag.h"
+    namespace ft = FileTools;
 
     namespace App {
 
@@ -71,12 +72,12 @@
                 g_app.hBtn1A = CreateWindowW(L"BUTTON", g_strings.SelectPath_Button.c_str(),
                     WS_CHILD | WS_VISIBLE,
                     margin + editWidth + margin, margin, btnWidth, editHeight,
-                    hWnd, (HMENU)ID_SELECT1_BUTTON, g_app.hInst, nullptr);
+                    hWnd, (HMENU)ID_SELECT1A_BUTTON, g_app.hInst, nullptr);
 
                 g_app.hBtn1B = CreateWindowW(L"BUTTON", g_strings.SelectFile_Button.c_str(),
                     WS_CHILD | WS_VISIBLE,
                     margin + editWidth + margin+ btnWidth, margin, btnWidth, editHeight,
-                    hWnd, (HMENU)ID_SELECT1_BUTTON, g_app.hInst, nullptr);
+                    hWnd, (HMENU)ID_SELECT1B_BUTTON, g_app.hInst, nullptr);
 
                 g_app.hEdit2 = CreateWindowW(L"EDIT", L"",
                     WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL,
@@ -164,7 +165,12 @@
                     break;
 
                     // 按钮
-                case ID_SELECT1_BUTTON:
+                case ID_SELECT1A_BUTTON:
+                {
+                    SetWindowTextW(g_app.hEdit1, OpenFolder(hWnd).c_str());
+                    break;
+                }
+                case ID_SELECT1B_BUTTON:
                 {
                     SetWindowTextW(g_app.hEdit1, OpenFile(hWnd).c_str());
                     break;
@@ -183,14 +189,21 @@
                     if (wcslen(src) == 0 || wcslen(dst) == 0)
                         break;
 
-                    auto res = FileTools::MoveWithLink(src, dst, HideOrigin);
+                    auto res = ft::MoveWithLink(src, dst, HideOrigin);
 
                     if (!res.success) {
-                        int ret = MessageBoxW(hWnd, res.message.c_str(), g_strings.MoveFailed.c_str(), MB_YESNO | MB_ICONWARNING);
+                        if(ft::blockmsg==0)
+                        {
+						
+                        int ret = MessageBoxW(hWnd, g_strings.UndoConfirm.c_str(), res.message.c_str() ,  MB_YESNO | MB_ICONWARNING);
                         if (ret == IDYES) {
                             // 撤销操作：尝试复制回原位置
-                            FileTools::CopyItem(std::wstring(dst) + L"\\" + std::filesystem::path(src).filename().wstring(), std::wstring(src));
-                            MessageBoxW(hWnd, g_strings.UndoConfirm.c_str(), g_strings.MoveFailed.c_str(), MB_OK | MB_ICONINFORMATION);
+                            ft::CopyItem(std::wstring(dst) + L"\\" + std::filesystem::path(src).filename().wstring(), std::wstring(src));
+                        }
+                       }
+                        else {
+                            MessageBoxW(hWnd, res.message.c_str(), g_strings.MoveFailed.c_str(), MB_OK | MB_ICONERROR);
+							ft::blockmsg = 0;
                         }
                     }
                     break;

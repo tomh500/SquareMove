@@ -14,5 +14,6 @@ namespace FileTools {
     bool RemoveItem(const std::wstring& path);
     bool CreateLink(const std::wstring& linkPath, const std::wstring& targetPath, bool isDirectory, std::wstring& errMsg);
     bool SetHidden(const std::wstring& path);
+    extern int blockmsg;
 
 }
