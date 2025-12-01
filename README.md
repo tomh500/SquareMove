@@ -15,6 +15,7 @@ FreeMove
 
 FreeMove_Square 是一个用于 **安全移动文件或目录并自动创建链接** 的 Windows 工具，  
 可在不破坏程序、快捷方式和依赖关系的前提下，将文件或文件夹迁移到其他磁盘位置。
+[![](https://github.com/jingyu-wang/FreeMove_Square/actions/workflows/build.yml/badge.svg)](https://github.com/jingyu-wang/FreeMove_Square/actions/workflows/build.yml)
 
 ---
 
