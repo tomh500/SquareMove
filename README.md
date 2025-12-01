@@ -1,6 +1,6 @@
 # FreeMove_Square
 
-Aliases / 其他名称：
+## Project name aliases / 项目别名
 
 FreeMoveSQ  
 FreeMove-SQ  
