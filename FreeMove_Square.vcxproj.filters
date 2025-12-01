@@ -126,6 +126,9 @@
     <Image Include="FreeMove_Square.ico">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="logo.ico">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="strings_zh_CN.txt">

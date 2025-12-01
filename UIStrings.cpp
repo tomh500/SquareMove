@@ -18,7 +18,7 @@ namespace App {
                 locale.find(L"zh-HK") == 0 ||
                 locale.find(L"zh-TW") == 0 ||
                 locale.find(L"zh-MO") == 0) {
-                zw1
+                zw
             }
         }
         return LANG_EN;
@@ -94,6 +94,8 @@ namespace App {
             g_strings.Menu_Exit = ParseIni(langData, L"ZH", L"Menu_Exit");
             g_strings.Menu_FastMode = ParseIni(langData, L"ZH", L"Menu_FastMode");
             g_strings.Menu_HideOrigin = ParseIni(langData, L"ZH", L"Menu_HideOrigin");
+            g_strings.MoveSuccess = ParseIni(langData, L"ZH", L"MoveSuccess");
+			g_strings.FastModeWarning = ParseIni(langData, L"ZH", L"FastModeWarning");
         }
         else {
             g_strings.title = ParseIni(langData, L"EN", L"Title");
@@ -111,6 +113,8 @@ namespace App {
             g_strings.Menu_Exit = ParseIni(langData, L"EN", L"Menu_Exit");
             g_strings.Menu_FastMode = ParseIni(langData, L"EN", L"Menu_FastMode");
             g_strings.Menu_HideOrigin = ParseIni(langData, L"EN", L"Menu_HideOrigin");
+            g_strings.MoveSuccess = ParseIni(langData, L"EN", L"MoveSuccess");
+			g_strings.FastModeWarning = ParseIni(langData, L"EN", L"FastModeWarning");
         }
 
 

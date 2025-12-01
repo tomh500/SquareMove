@@ -91,7 +91,7 @@ namespace FileTools {
 
                 while (ifs.read(buffer.get(), bufSize) || ifs.gcount() > 0) {
                     ofs.write(buffer.get(), ifs.gcount());
-                    progressCallback(done, total); // 高频更新
+                    progressCallback(done, total); 
                 }
 
 
@@ -215,10 +215,9 @@ namespace FileTools {
 
         res.success = true;
 
-        // 6. 成功提示
         MessageBoxW(nullptr,
-            (g_currentLang == LANG_ZH_CN) ? L"操作完成" : L"Operation completed",
-            (g_currentLang == LANG_ZH_CN) ? L"完成" : L"Done",
+            g_strings.MoveSuccess.c_str(), 
+            g_strings.title.c_str(),
             MB_OK | MB_ICONINFORMATION);
 
         return res;

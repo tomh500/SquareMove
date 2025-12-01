@@ -155,6 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="FreeMove_Square.ico" />
+    <Image Include="logo.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>

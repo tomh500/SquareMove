@@ -1,4 +1,4 @@
-name: Build FreeMove_Square
+name: xuan9build
 
 on:
   push:
@@ -30,9 +30,8 @@ jobs:
         run: |
           msbuild FreeMove_Square.vcxproj /p:Configuration=Release /p:Platform=x64 /m
 
-      # 上传产物
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: FreeMove_Square-Build
-          path: FreeMove_Square\x64\Release\
+          path: FreeMove_Square\x64\Release\FreeMove_Square.exe

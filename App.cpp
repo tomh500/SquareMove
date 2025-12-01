@@ -27,6 +27,32 @@
             return RegisterClassExW(&wc);
         }
 
+        HFONT CreatePreferredFont(int height)
+        {
+            LOGFONT lf{};
+            lf.lfHeight = height;
+            lf.lfWeight = FW_NORMAL;
+            lf.lfCharSet = DEFAULT_CHARSET;
+            lf.lfQuality = CLEARTYPE_QUALITY;
+
+            std::wstring fonts[] = { L"等线", L"微软雅黑", L"宋体" };
+
+            for (auto& f : fonts) {
+                wcscpy_s(lf.lfFaceName, f.c_str());
+                HFONT hFont = CreateFontIndirect(&lf);
+                if (hFont) return hFont;
+            }
+
+            return (HFONT)GetStockObject(DEFAULT_GUI_FONT);
+        }
+
+        void SetCtrlFont(HWND hCtrl, int height = 16)
+        {
+            HFONT hFont = CreatePreferredFont(height);
+            SendMessage(hCtrl, WM_SETFONT, (WPARAM)hFont, TRUE);
+        }
+
+
         std::wstring LoadAboutText(HINSTANCE hInst)
         {
             //MessageBoxW(NULL, L"LoadAboutText called", L"DEBUG", 0);
@@ -167,46 +193,33 @@
                 const int warningIconSize = 48; 
                 const int warningMarginX = 20; 
 
-                // 第一行: 文件或文件夹选择
-                g_app.hEdit1 = CreateWindowW(L"EDIT", L"",
-                    WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL,
-                    margin, margin, editWidth, editHeight,
-                    hWnd, (HMENU)ID_INPUT1_EDIT, g_app.hInst, nullptr);
+                g_app.hEdit1 = CreateWindowW(L"EDIT", L"", WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL,
+                    margin, margin, editWidth, editHeight, hWnd, (HMENU)ID_INPUT1_EDIT, g_app.hInst, nullptr);
+                SetCtrlFont(g_app.hEdit1, 16);
 
                 g_app.hBtn1A = CreateWindowW(L"BUTTON", g_strings.SelectPath_Button.c_str(),
-                    WS_CHILD | WS_VISIBLE,
-                    margin + editWidth + margin, margin, btnWidth, editHeight,
+                    WS_CHILD | WS_VISIBLE, margin + editWidth + margin, margin, btnWidth, editHeight,
                     hWnd, (HMENU)ID_SELECT1A_BUTTON, g_app.hInst, nullptr);
+                SetCtrlFont(g_app.hBtn1A, 16);
 
                 g_app.hBtn1B = CreateWindowW(L"BUTTON", g_strings.SelectFile_Button.c_str(),
-                    WS_CHILD | WS_VISIBLE,
-                    margin + editWidth + margin+ btnWidth, margin, btnWidth, editHeight,
+                    WS_CHILD | WS_VISIBLE, margin + editWidth + margin + btnWidth, margin, btnWidth, editHeight,
                     hWnd, (HMENU)ID_SELECT1B_BUTTON, g_app.hInst, nullptr);
+                SetCtrlFont(g_app.hBtn1B, 16);
 
-                g_app.hEdit2 = CreateWindowW(L"EDIT", L"",
-                    WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL,
-                    margin, margin + editHeight + margin, editWidth, editHeight,
-                    hWnd, (HMENU)ID_INPUT2_EDIT, g_app.hInst, nullptr);
+                g_app.hEdit2 = CreateWindowW(L"EDIT", L"", WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL,
+                    margin, margin + editHeight + margin, editWidth, editHeight, hWnd, (HMENU)ID_INPUT2_EDIT, g_app.hInst, nullptr);
+                SetCtrlFont(g_app.hEdit2, 16);
 
                 g_app.hBtn2 = CreateWindowW(L"BUTTON", g_strings.SelectPath_Button.c_str(),
-                    WS_CHILD | WS_VISIBLE,
-                    margin + editWidth + margin, margin + editHeight + margin, btnWidth, editHeight,
+                    WS_CHILD | WS_VISIBLE, margin + editWidth + margin, margin + editHeight + margin, btnWidth, editHeight,
                     hWnd, (HMENU)ID_SELECT2_BUTTON, g_app.hInst, nullptr);
+                SetCtrlFont(g_app.hBtn2, 16);
 
-
-                // Move 按钮
-                g_app.hBtnMove = CreateWindowExW(
-                    0,
-                    L"BUTTON",
-                    g_strings.MoveButton.c_str(),
-                    WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-                    margin, margin + 2 * (editHeight + margin),
-                    moveBtnWidth, editHeight,
-                    hWnd,
-                    (HMENU)ID_MOVE_BUTTON,
-                    g_app.hInst,
-                    nullptr
-                );
+                g_app.hBtnMove = CreateWindowExW(0, L"BUTTON", g_strings.MoveButton.c_str(),
+                    WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, margin, margin + 2 * (editHeight + margin),
+                    moveBtnWidth, editHeight, hWnd, (HMENU)ID_MOVE_BUTTON, g_app.hInst, nullptr);
+                SetCtrlFont(g_app.hBtnMove, 16);
 
                 // 检测管理员权限
                 if (!IsUserAnAdmin()) {
@@ -269,13 +282,38 @@
                     DestroyWindow(hWnd);
                     break;
                 case IDM_FASTMODE:
-                    FastMode = !FastMode; // 切换状态
-                    CheckMenuItem(GetMenu(hWnd), IDM_FASTMODE, MF_BYCOMMAND | (FastMode ? MF_CHECKED : MF_UNCHECKED));
+                    if (FastMode==false && MessageBoxW(nullptr, g_strings.FastModeWarning.c_str(), g_strings.title.c_str(), MB_OK | MB_ICONINFORMATION)) {
+                        FastMode = !FastMode; // 切换状态
+                        CheckMenuItem(GetMenu(hWnd), IDM_FASTMODE, MF_BYCOMMAND | (FastMode ? MF_CHECKED : MF_UNCHECKED));
+                    }
+                    else {
+                        FastMode = !FastMode; // 切换状态
+                        CheckMenuItem(GetMenu(hWnd), IDM_FASTMODE, MF_BYCOMMAND | (FastMode ? MF_CHECKED : MF_UNCHECKED));
+                    }
+
                     break;
                 case IDM_HIDEORIGIN:
                     HideOrigin = !HideOrigin;
                     CheckMenuItem(GetMenu(hWnd), IDM_HIDEORIGIN, MF_BYCOMMAND | (HideOrigin ? MF_CHECKED : MF_UNCHECKED));
                     break;
+
+                case IDM_GITHUB: {
+                    const std::string url = "https://www.github.com/tomh500/FreeMove_Square";
+                    std::string command;
+                    #ifdef _WIN32
+                    command = "start \"\" \"" + url + "\"";
+                    #elif __APPLE__
+                    command = "open \"" + url + "\"";
+                    #else
+                    command = "xdg-open \"" + url + "\"";
+                    #endif
+
+                    // --- 执行命令 ---
+                    int result = std::system(command.c_str());
+
+                    break;
+                }
+
 
                     // 按钮
                 case ID_SELECT1A_BUTTON:
