@@ -137,7 +137,6 @@ namespace FileTools {
     MoveResult MoveWithLink(const std::wstring& src, const std::wstring& dstDir, bool hideOrigin)
     {
         MoveResult res{ false, L"" };
-
         fs::path srcPath(src);
         fs::path dstPath = fs::path(dstDir) / srcPath.filename();
 
@@ -159,36 +158,21 @@ namespace FileTools {
             return res;
         }
 
-        // ========================
-        // 快速模式：直接剪切
-        // ========================
-        if (FastMode) {
+        bool isFast = FastMode;
+
+        // 3. 执行操作
+        if (isFast) {
+            // 快速模式：直接剪切
             try {
-                fs::rename(srcPath, dstPath);  
+                fs::rename(srcPath, dstPath);
             }
             catch (...) {
-                res.message = (g_currentLang == LANG_ZH_CN) ?
-                    L"剪切失败" :
-                    L"Move failed";
+                res.message = (g_currentLang == LANG_ZH_CN) ? L"剪切失败" : L"Move failed";
                 return res;
             }
-            std::wstring errMsg;
-            if (!CreateLink(src, dstPath.wstring(), fs::is_directory(dstPath), errMsg)) {
-                res.message = errMsg;
-                return res;
-            }
-
-            if (hideOrigin)
-                SetHidden(src);
-
-            res.success = true;
-            return res;
         }
         else {
-
-            // ========================
-            // 普通模式：完整复制 + 进度 + 删除源
-            // ========================
+            // 普通模式：完整复制 + 进度
             size_t totalFiles = 0;
             for (auto& entry : fs::recursive_directory_iterator(srcPath))
                 if (fs::is_regular_file(entry.path())) totalFiles++;
@@ -204,31 +188,42 @@ namespace FileTools {
                 res.message = (g_currentLang == LANG_ZH_CN) ? L"复制失败" : L"Copy failed";
                 return res;
             }
+            CloseMoveProgress();
         }
 
-        CloseMoveProgress();
-
-        // 删除原目录
-        if (!RemoveItem(src)) {
-            res.message = (g_currentLang == LANG_ZH_CN) ? L"删除源文件/目录失败" : L"Remove original failed";
-            blockmsg = 0;
-            return res;
+        // 4. 删除原目录（只复制模式需要）
+        if (!isFast) {
+            if (!RemoveItem(src)) {
+                res.message = (g_currentLang == LANG_ZH_CN) ? L"删除源文件/目录失败" : L"Remove original failed";
+                blockmsg = 0;
+                return res;
+            }
         }
 
-        // 创建符号链接
+        // 5. 创建符号链接
         std::wstring errMsg;
         if (!CreateLink(src, dstPath.wstring(), fs::is_directory(dstPath), errMsg)) {
             res.message = errMsg;
-            fs::path safeRestore = srcPath.parent_path() / (srcPath.filename().wstring() + L"_restore");
-            CopyItem(dstPath.wstring(), safeRestore.wstring());
+            if (!isFast) {
+                fs::path safeRestore = srcPath.parent_path() / (srcPath.filename().wstring() + L"_restore");
+                CopyItem(dstPath.wstring(), safeRestore.wstring());
+            }
             return res;
         }
 
         if (hideOrigin) SetHidden(src);
 
         res.success = true;
+
+        // 6. 成功提示
+        MessageBoxW(nullptr,
+            (g_currentLang == LANG_ZH_CN) ? L"操作完成" : L"Operation completed",
+            (g_currentLang == LANG_ZH_CN) ? L"完成" : L"Done",
+            MB_OK | MB_ICONINFORMATION);
+
         return res;
     }
+
 
 
 
