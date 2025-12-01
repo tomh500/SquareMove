@@ -1,3 +1,0 @@
-#include "resource.h"
-IDR_ABOUTTXT RCDATA "about.txt"
-IDR_LANG_INI RCDATA "lang.ini"

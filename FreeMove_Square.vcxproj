@@ -70,6 +70,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(ProjectDir)src\UI\;$(ProjectDir)src\Core\;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -125,51 +128,52 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AboutDlg.h" />
-    <ClInclude Include="App.h" />
-    <ClInclude Include="Controls.h" />
-    <ClInclude Include="DragDrop.h" />
-    <ClInclude Include="FileTools.h" />
-    <ClInclude Include="Flag.h" />
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="FreeMove_Square.h" />
-    <ClInclude Include="MoveProgressWnd.h" />
-    <ClInclude Include="PathDialog.h" />
-    <ClInclude Include="Resource.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="UIStrings.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="AboutDlg.cpp" />
-    <ClCompile Include="App.cpp" />
-    <ClCompile Include="DragDrop.cpp" />
-    <ClCompile Include="FreeMove_Square.cpp" />
-    <ClCompile Include="FileTools.cpp" />
-    <ClCompile Include="MoveProgressWnd.cpp" />
-    <ClCompile Include="PathDialog.cpp" />
-    <ClCompile Include="UIStrings.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="FreeMove_Square.rc" />
-    <ResourceCompile Include="resource.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="FreeMove_Square.ico" />
+    <Image Include="assets\FreeMove_Square.ico" />
+    <Image Include="assets\logo.ico" />
+    <Image Include="assets\logo.png" />
+    <Image Include="assets\output.png" />
+    <Image Include="assets\small.ico" />
     <Image Include="logo.ico" />
-    <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="about.txt" />
     <Text Include="CloudVersion.txt" />
-    <Text Include="strings_zh_CN.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Manifest Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".github\workflows\build.yml" />
+    <None Include="assets\conver_logo.py" />
     <None Include="keepfile.gitaction" />
-    <None Include="lang.ini" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Core\FileTools.h" />
+    <ClInclude Include="src\Core\Flag.h" />
+    <ClInclude Include="src\Core\targetver.h" />
+    <ClInclude Include="src\UI\AboutDlg.h" />
+    <ClInclude Include="src\UI\App.h" />
+    <ClInclude Include="src\UI\DragDrop.h" />
+    <ClInclude Include="src\UI\framework.h" />
+    <ClInclude Include="src\UI\FreeMove_Square.h" />
+    <ClInclude Include="src\UI\MoveProgressWnd.h" />
+    <ClInclude Include="src\UI\PathDialog.h" />
+    <ClInclude Include="src\UI\Resource.h" />
+    <ClInclude Include="src\UI\UIStrings.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="FreeMove_Square.rc" />
+    <ResourceCompile Include="src\UI\resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Core\FileTools.cpp" />
+    <ClCompile Include="src\UI\AboutDlg.cpp" />
+    <ClCompile Include="src\UI\App.cpp" />
+    <ClCompile Include="src\UI\DragDrop.cpp" />
+    <ClCompile Include="src\UI\FreeMove_Square.cpp" />
+    <ClCompile Include="src\UI\main.cpp" />
+    <ClCompile Include="src\UI\MoveProgressWnd.cpp" />
+    <ClCompile Include="src\UI\PathDialog.cpp" />
+    <ClCompile Include="src\UI\UIStrings.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="src\UI\app.manifest" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

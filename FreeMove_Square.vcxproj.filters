@@ -16,140 +16,125 @@
     <Filter Include=".github">
       <UniqueIdentifier>{f4b00590-b926-41f4-8e49-174917327827}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\Head">
-      <UniqueIdentifier>{4634fcd9-b69c-4c88-a813-c7046feb4a95}</UniqueIdentifier>
+    <Filter Include="头文件\Core">
+      <UniqueIdentifier>{be5274c4-66b0-4ac7-99d8-b165b7540d5f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\Head\Commom">
-      <UniqueIdentifier>{4fdadd77-078b-4c8d-9170-08e5a58b0c24}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\Func">
-      <UniqueIdentifier>{528d003b-84b9-4caa-a21d-1d5bed4cc153}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\Core">
-      <UniqueIdentifier>{003526c1-597c-4807-b4ed-f4ab19a1ad09}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件\Head\VS">
-      <UniqueIdentifier>{1f36e579-b82d-4d9d-a613-43e09bb773e0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="资源文件\Custom">
-      <UniqueIdentifier>{1b4c5eda-93b4-4de8-87fd-213097651d8c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\ExtraWindow">
-      <UniqueIdentifier>{35e83bdd-ba62-434e-9a0b-ff2e6d05eedc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件\Head\ExtraWindow">
-      <UniqueIdentifier>{116e8bcc-bb9d-4eb3-a35c-4cb48fd2051a}</UniqueIdentifier>
+    <Filter Include="头文件\Other">
+      <UniqueIdentifier>{67592994-0acb-42f9-8eba-1b1d4d380d70}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DragDrop.h">
-      <Filter>头文件\Head\Commom</Filter>
-    </ClInclude>
-    <ClInclude Include="Flag.h">
-      <Filter>头文件\Head</Filter>
-    </ClInclude>
-    <ClInclude Include="PathDialog.h">
-      <Filter>头文件\Head\Commom</Filter>
-    </ClInclude>
-    <ClInclude Include="UIStrings.h">
-      <Filter>头文件\Head\Commom</Filter>
-    </ClInclude>
-    <ClInclude Include="Controls.h">
-      <Filter>头文件\Head\VS</Filter>
-    </ClInclude>
-    <ClInclude Include="framework.h">
-      <Filter>头文件\Head\VS</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>头文件\Head\VS</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>头文件\Head\VS</Filter>
-    </ClInclude>
-    <ClInclude Include="MoveProgressWnd.h">
-      <Filter>头文件\Head\ExtraWindow</Filter>
-    </ClInclude>
-    <ClInclude Include="FileTools.h">
-      <Filter>头文件\Head</Filter>
-    </ClInclude>
-    <ClInclude Include="FreeMove_Square.h">
-      <Filter>头文件\Head</Filter>
-    </ClInclude>
-    <ClInclude Include="App.h">
-      <Filter>头文件\Head\Commom</Filter>
-    </ClInclude>
-    <ClInclude Include="AboutDlg.h">
-      <Filter>头文件\Head\Commom</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="DragDrop.cpp">
-      <Filter>源文件\Func</Filter>
-    </ClCompile>
-    <ClCompile Include="FileTools.cpp">
-      <Filter>源文件\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="UIStrings.cpp">
-      <Filter>源文件\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="PathDialog.cpp">
-      <Filter>源文件\Func</Filter>
-    </ClCompile>
-    <ClCompile Include="MoveProgressWnd.cpp">
-      <Filter>源文件\ExtraWindow</Filter>
-    </ClCompile>
-    <ClCompile Include="FreeMove_Square.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="App.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="AboutDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="FreeMove_Square.rc">
-      <Filter>资源文件\Custom</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="resource.rc">
-      <Filter>资源文件\Custom</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="small.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="FreeMove_Square.ico">
-      <Filter>资源文件</Filter>
-    </Image>
     <Image Include="logo.ico">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="assets\FreeMove_Square.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="assets\logo.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="assets\logo.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="assets\output.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="assets\small.ico">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="strings_zh_CN.txt">
-      <Filter>资源文件</Filter>
-    </Text>
-    <Text Include="about.txt">
-      <Filter>资源文件\Custom</Filter>
-    </Text>
     <Text Include="CloudVersion.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Manifest Include="app.manifest">
-      <Filter>资源文件</Filter>
-    </Manifest>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="lang.ini">
-      <Filter>资源文件\Custom</Filter>
-    </None>
     <None Include=".github\workflows\build.yml">
       <Filter>资源文件</Filter>
     </None>
     <None Include="keepfile.gitaction">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="assets\conver_logo.py">
+      <Filter>资源文件</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Core\FileTools.h">
+      <Filter>头文件\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Flag.h">
+      <Filter>头文件\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\AboutDlg.h">
+      <Filter>头文件\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\App.h">
+      <Filter>头文件\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\DragDrop.h">
+      <Filter>头文件\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\framework.h">
+      <Filter>头文件\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\FreeMove_Square.h">
+      <Filter>头文件\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\MoveProgressWnd.h">
+      <Filter>头文件\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\PathDialog.h">
+      <Filter>头文件\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\Resource.h">
+      <Filter>头文件\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\UIStrings.h">
+      <Filter>头文件\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\targetver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\UI\resource.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="FreeMove_Square.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Core\FileTools.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\AboutDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\App.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\DragDrop.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\FreeMove_Square.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\MoveProgressWnd.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\PathDialog.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\UIStrings.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="src\UI\app.manifest">
+      <Filter>资源文件</Filter>
+    </Manifest>
   </ItemGroup>
 </Project>
