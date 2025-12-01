@@ -1,0 +1,46 @@
+name: Build FreeMove_Square
+
+on:
+  push:
+    paths:
+      - '**/*.cpp'
+      - '**/*.h'
+      - '**/*.vcxproj'
+  pull_request:
+    paths:
+      - '**/*.cpp'
+      - '**/*.h'
+      - '**/*.vcxproj'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      # 检出代码
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 设置 VS 编译环境
+      - name: Setup Visual Studio environment
+        shell: powershell
+        run: |
+          echo "Setting up Visual Studio environment..."
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $vs = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          if (-not $vs) { throw "Visual Studio not found!" }
+          $vcvars = Join-Path $vs "VC\Auxiliary\Build\vcvars64.bat"
+          & cmd /c `"$vcvars`" x64
+
+      # 构建 .vcxproj
+      - name: Build FreeMove_Square with MSBuild
+        shell: cmd
+        run: |
+          msbuild FreeMove_Square.vcxproj /p:Configuration=Release /p:Platform=x64 /m
+
+      # 上传构建产物（可选）
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: FreeMove_Square-Build
+          path: FreeMove_Square\x64\Release\
