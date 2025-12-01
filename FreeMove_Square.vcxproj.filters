@@ -28,9 +28,6 @@
     <Filter Include="源文件\Core">
       <UniqueIdentifier>{003526c1-597c-4807-b4ed-f4ab19a1ad09}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\Main">
-      <UniqueIdentifier>{48c391f8-73ae-4fcd-bb1e-ecd5d6a5b954}</UniqueIdentifier>
-    </Filter>
     <Filter Include="头文件\Head\VS">
       <UniqueIdentifier>{1f36e579-b82d-4d9d-a613-43e09bb773e0}</UniqueIdentifier>
     </Filter>
@@ -40,31 +37,22 @@
     <Filter Include="源文件\ExtraWindow">
       <UniqueIdentifier>{35e83bdd-ba62-434e-9a0b-ff2e6d05eedc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\Head\Extra">
+    <Filter Include="头文件\Head\ExtraWindow">
       <UniqueIdentifier>{116e8bcc-bb9d-4eb3-a35c-4cb48fd2051a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="App.h">
-      <Filter>头文件\Head\Commom</Filter>
-    </ClInclude>
     <ClInclude Include="DragDrop.h">
       <Filter>头文件\Head\Commom</Filter>
     </ClInclude>
     <ClInclude Include="Flag.h">
       <Filter>头文件\Head</Filter>
     </ClInclude>
-    <ClInclude Include="FreeMove_Square.h">
-      <Filter>头文件\Head\Commom</Filter>
-    </ClInclude>
     <ClInclude Include="PathDialog.h">
       <Filter>头文件\Head\Commom</Filter>
     </ClInclude>
     <ClInclude Include="UIStrings.h">
       <Filter>头文件\Head\Commom</Filter>
-    </ClInclude>
-    <ClInclude Include="AboutDlg.h">
-      <Filter>头文件\Head\VS</Filter>
     </ClInclude>
     <ClInclude Include="Controls.h">
       <Filter>头文件\Head\VS</Filter>
@@ -79,16 +67,22 @@
       <Filter>头文件\Head\VS</Filter>
     </ClInclude>
     <ClInclude Include="MoveProgressWnd.h">
-      <Filter>头文件\Head\Extra</Filter>
+      <Filter>头文件\Head\ExtraWindow</Filter>
     </ClInclude>
     <ClInclude Include="FileTools.h">
       <Filter>头文件\Head</Filter>
     </ClInclude>
+    <ClInclude Include="FreeMove_Square.h">
+      <Filter>头文件\Head</Filter>
+    </ClInclude>
+    <ClInclude Include="App.h">
+      <Filter>头文件\Head\Commom</Filter>
+    </ClInclude>
+    <ClInclude Include="AboutDlg.h">
+      <Filter>头文件\Head\Commom</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AboutDlg.cpp">
-      <Filter>源文件\Func</Filter>
-    </ClCompile>
     <ClCompile Include="DragDrop.cpp">
       <Filter>源文件\Func</Filter>
     </ClCompile>
@@ -101,14 +95,17 @@
     <ClCompile Include="PathDialog.cpp">
       <Filter>源文件\Func</Filter>
     </ClCompile>
-    <ClCompile Include="App.cpp">
-      <Filter>源文件\Main</Filter>
-    </ClCompile>
-    <ClCompile Include="FreeMove_Square.cpp">
-      <Filter>源文件\Main</Filter>
-    </ClCompile>
     <ClCompile Include="MoveProgressWnd.cpp">
       <Filter>源文件\ExtraWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeMove_Square.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="App.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="AboutDlg.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -137,6 +134,7 @@
     <Text Include="about.txt">
       <Filter>资源文件\Custom</Filter>
     </Text>
+    <Text Include="CloudVersion.txt" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="app.manifest">
@@ -146,6 +144,12 @@
   <ItemGroup>
     <None Include="lang.ini">
       <Filter>资源文件\Custom</Filter>
+    </None>
+    <None Include=".github\workflows\build.yml">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="keepfile.gitaction">
+      <Filter>资源文件</Filter>
     </None>
   </ItemGroup>
 </Project>
