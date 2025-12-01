@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir)src\UI\;$(ProjectDir)src\Core\;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)src\Funcation;$(ProjectDir)src\UI\;$(ProjectDir)src\;$(ProjectDir)src\Core\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -144,16 +144,16 @@
     <None Include="keepfile.gitaction" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\App.h" />
     <ClInclude Include="src\Core\FileTools.h" />
     <ClInclude Include="src\Core\Flag.h" />
     <ClInclude Include="src\Core\targetver.h" />
+    <ClInclude Include="src\FreeMove_Square.h" />
+    <ClInclude Include="src\Funcation\DragDrop.h" />
+    <ClInclude Include="src\Funcation\PathDialog.h" />
     <ClInclude Include="src\UI\AboutDlg.h" />
-    <ClInclude Include="src\UI\App.h" />
-    <ClInclude Include="src\UI\DragDrop.h" />
     <ClInclude Include="src\UI\framework.h" />
-    <ClInclude Include="src\UI\FreeMove_Square.h" />
     <ClInclude Include="src\UI\MoveProgressWnd.h" />
-    <ClInclude Include="src\UI\PathDialog.h" />
     <ClInclude Include="src\UI\Resource.h" />
     <ClInclude Include="src\UI\UIStrings.h" />
   </ItemGroup>
@@ -162,14 +162,13 @@
     <ResourceCompile Include="src\UI\resource.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\Core\FileTools.cpp" />
+    <ClCompile Include="src\FreeMove_Square.cpp" />
+    <ClCompile Include="src\Funcation\DragDrop.cpp" />
+    <ClCompile Include="src\Funcation\PathDialog.cpp" />
     <ClCompile Include="src\UI\AboutDlg.cpp" />
-    <ClCompile Include="src\UI\App.cpp" />
-    <ClCompile Include="src\UI\DragDrop.cpp" />
-    <ClCompile Include="src\UI\FreeMove_Square.cpp" />
-    <ClCompile Include="src\UI\main.cpp" />
     <ClCompile Include="src\UI\MoveProgressWnd.cpp" />
-    <ClCompile Include="src\UI\PathDialog.cpp" />
     <ClCompile Include="src\UI\UIStrings.cpp" />
   </ItemGroup>
   <ItemGroup>
