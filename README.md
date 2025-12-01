@@ -1,5 +1,15 @@
 # FreeMove_Square
 
+Aliases / 其他名称：
+
+FreeMoveSQ  
+FreeMove-SQ  
+FreeMove_SQ  
+FreeMove Square  
+FreeMoveSquare  
+
+
+
 [English Version](README_EN.md)
 
 FreeMove_Square 是一个用于 **安全移动文件或目录并自动创建链接** 的 Windows 工具，  
