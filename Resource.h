@@ -13,6 +13,7 @@
 #define IDI_SMALL				108
 #define IDC_FREEMOVESQUARE			109
 #define IDC_MYICON				2
+#define IDR_ABOUTTXT 1101
 #ifndef IDC_STATIC
 #define IDC_STATIC				-1
 #endif
@@ -28,3 +29,16 @@
 #define _APS_NEXT_SYMED_VALUE		110
 #endif
 #endif
+
+
+// 编辑框
+#define ID_INPUT1_EDIT     1001
+#define ID_INPUT2_EDIT     1002
+
+// 按钮
+#define ID_SELECT1_BUTTON  1003
+#define ID_SELECT2_BUTTON  1004
+#define ID_MOVE_BUTTON 1005
+#define ID_ADMIN_WARN_BUTTON 1006
+
+#define IDR_LANG_INI 2001

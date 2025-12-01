@@ -1,0 +1,43 @@
+# FreeMoveSQ 简体中文语言包
+# key=value
+
+APP_TITLE=无损平方移动软件
+WINDOW_CLASS_NAME=FreeMoveSquareClass
+SOURCE_LABEL=源路径
+TARGET_LABEL=目标目录
+SELECT_DIR_BUTTON=选择目录
+MOVE_BUTTON=移动
+STATUS_READY=等待操作...
+MENU_SETTING=设置/Setting
+MENU_INFO=信息/Info
+MENU_REQUIRE_ADMIN=请求以管理员身份运行/Require Admin permission
+MENU_ADMIN_ELEVATED=管理员模式：使用Nsudo充分访问FreeMoveSQ全部功能！
+MENU_ADMIN_SYSTEM=当前正在以 SYSTEM/TRUSTINSTALLER 身份运行
+MENU_EXIT=退出程序
+
+// Dialogs and Messages
+DIALOG_ABOUT_TITLE=关于 FreeMoveSQ
+DIALOG_SETTINGS_TITLE=程序设置
+DIALOG_OK=确定
+DIALOG_CANCEL=取消
+
+// Settings
+SETTING_PERMISSION_CHECK=权限检查/Permission Check
+SETTING_HIDE_ORIGIN=设置原目录隐藏/Setting Origin Path to hidden
+
+// File Operations
+OP_SUCCESS_TITLE=操作成功
+OP_SUCCESS_MESSAGE=文件/文件夹已成功移动并创建了符号链接。
+OP_FAILURE_TITLE=操作失败
+OP_COPY_FAILURE=复制失败。原因：
+OP_DELETE_FAILURE=删除原文件/文件夹失败。原因：
+OP_MKLINK_FAILURE=创建符号链接失败。原因：
+OP_PATH_INVALID=路径无效或不存在。
+OP_PERMISSION_DENIED=权限不足，请尝试以管理员身份运行。
+OP_UNKNOWN_ERROR=未知错误。
+
+// Rollback
+ROLLBACK_ASK_TITLE=撤销操作？
+ROLLBACK_ASK_MESSAGE=移动失败，是否撤销操作（删除目标目录中的文件）？
+ROLLBACK_SUCCESS=撤销成功。
+ROLLBACK_FAILURE=撤销失败。请手动清理目标目录。

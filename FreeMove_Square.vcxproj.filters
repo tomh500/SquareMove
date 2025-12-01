@@ -27,14 +27,62 @@
     <ClInclude Include="FreeMove_Square.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Controls.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Localization.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="UIStrings.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DragDrop.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PathDialog.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="AboutDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="App.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Flag.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTools.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FreeMove_Square.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="UIStrings.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DragDrop.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PathDialog.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="AboutDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="App.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTools.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FreeMove_Square.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="resource.rc">
       <Filter>资源文件</Filter>
     </ResourceCompile>
   </ItemGroup>
@@ -45,5 +93,23 @@
     <Image Include="FreeMove_Square.ico">
       <Filter>资源文件</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="about.txt">
+      <Filter>资源文件</Filter>
+    </Text>
+    <Text Include="strings_zh_CN.txt">
+      <Filter>资源文件</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="app.manifest">
+      <Filter>资源文件</Filter>
+    </Manifest>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="lang.ini">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
 </Project>
