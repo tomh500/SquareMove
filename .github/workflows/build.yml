@@ -3,11 +3,13 @@ name: FreeMove_Square Build Madness
 on:
   push:
     paths:
+      - '**/*.gitaction'
       - '**/*.cpp'
       - '**/*.h'
       - '**/*.vcxproj'
   pull_request:
     paths:
+      - '**/*.gitaction'
       - '**/*.cpp'
       - '**/*.h'
       - '**/*.vcxproj'
