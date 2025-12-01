@@ -17,29 +17,21 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      # 检出代码
+      # 拉取代码
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 设置 VS 编译环境
-      - name: Setup Visual Studio environment
-        shell: powershell
-        run: |
-          echo "Setting up Visual Studio environment..."
-          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
-          $vs = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
-          if (-not $vs) { throw "Visual Studio not found!" }
-          $vcvars = Join-Path $vs "VC\Auxiliary\Build\vcvars64.bat"
-          & cmd /c `"$vcvars`" x64
+      # 安装并加入 MSBuild
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
 
-      # 构建 .vcxproj
-      - name: Build FreeMove_Square with MSBuild
-        shell: cmd
+      # 构建工程
+      - name: Build with MSBuild
         run: |
           msbuild FreeMove_Square.vcxproj /p:Configuration=Release /p:Platform=x64 /m
 
-      # 上传构建产物（可选）
-      - name: Upload artifacts
+      # 上传产物
+      - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: FreeMove_Square-Build
