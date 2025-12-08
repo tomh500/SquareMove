@@ -1,4 +1,4 @@
-# FreeMove_Square
+# SquareMove
 
 
 ## Project name aliases
@@ -13,24 +13,24 @@ FreeMove
 ---
 [中文说明](README.md)
 
-FreeMove_Square is a Windows utility that allows you to **move files and directories without breaking programs, shortcuts, or system paths**.
+SquareMove is a Windows utility that allows you to **move files and directories without breaking programs, shortcuts, or system paths**.
 
 It safely moves content and automatically creates system links so that software continues to work as if nothing changed.
 
 ---
 
-### ⬇️ Get FreeMove_Square
+### ⬇️ Get SquareMove
 
 **Click here to download the latest automated build (Windows x64):**
-[➡️ Go to GitHub Actions Download Page](https://github.com/tomh500/FreeMove_Square/actions/)
+[➡️ Go to GitHub Actions Download Page](https://github.com/tomh500/SquareMove/actions/)
 
-> **Note:** After navigating to the page, please select the latest **Kawaii Build run**, and then look for the **Artifacts** (FreeMove_Square-Build) on the right side to start your download.
+> **Note:** After navigating to the page, please select the latest **Kawaii Build run**, and then look for the **Artifacts** (SquareMove-Build) on the right side to start your download.
 
 ---
 
 ## Features
 
-FreeMove_Square allows you to:
+SquareMove allows you to:
 
 - Move files and directories between disks
 - Automatically create symbolic links (mklink)

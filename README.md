@@ -1,4 +1,4 @@
-# FreeMove_Square
+# SquareMove
 
 ## Project name aliases / 项目别名
 
@@ -13,23 +13,23 @@ FreeMove
 
 [English Version](README_EN.md)
 
-FreeMove_Square 是一个用于 **安全移动文件或目录并自动创建链接** 的 Windows 工具，  
+SquareMove 是一个用于 **安全移动文件或目录并自动创建链接** 的 Windows 工具，  
 可在不破坏程序、快捷方式和依赖关系的前提下，将文件或文件夹迁移到其他磁盘位置。
 
 ---
 
-### ⬇️ 获取 FreeMove_Square
+### ⬇️ 获取 SquareMove
 
 **点击此处下载最新的自动构建版本 (Windows x64):**
-[➡️ 前往 GitHub Actions 下载页面](https://github.com/tomh500/FreeMove_Square/actions/)
+[➡️ 前往 GitHub Actions 下载页面](https://github.com/tomh500/SquareMove/actions/)
 
-> **注意:** 下载后，请选择最新的 **Kawaii Build 运行**，然后找到右侧的 **Artifacts** (FreeMove_Square-Build) 进行下载。
+> **注意:** 下载后，请选择最新的 **Kawaii Build 运行**，然后找到右侧的 **Artifacts** (SquareMove-Build) 进行下载。
 
 ---
 
 ## 功能简介
 
-FreeMove_Square 允许你：
+SquareMove 允许你：
 
 - 将文件或文件夹移动到其他磁盘
 - 自动创建符号链接（mklink）来保持原路径可访问
@@ -44,7 +44,7 @@ FreeMove_Square 允许你：
 
 ## 工作原理
 
-FreeMove_Square 的工作流程如下：
+SquareMove 的工作流程如下：
 
 1. 将原始文件或目录移动到新位置
 2. 在原路径创建一个符号链接（指向新位置）
