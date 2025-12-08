@@ -45,6 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="CloudVersion.txt" />
+    <Text Include="docs\about.txt">
+      <Filter>资源文件</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <None Include=".github\workflows\build.yml">

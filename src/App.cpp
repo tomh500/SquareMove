@@ -298,7 +298,7 @@
                     break;
 
                 case IDM_GITHUB: {
-                    const std::string url = "https://www.github.com/tomh500/FreeMove_Square";
+                    const std::string url = "https://www.github.com/tomh500/SquareMove";
                     std::string command;
                     #ifdef _WIN32
                     command = "start \"\" \"" + url + "\"";

@@ -72,6 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(ProjectDir)src\Funcation;$(ProjectDir)src\UI\;$(ProjectDir)src\;$(ProjectDir)src\Core\;$(IncludePath)</IncludePath>
+    <TargetName>SquareMove</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -138,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="CloudVersion.txt" />
+    <Text Include="docs\about.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".github\workflows\build.yml" />

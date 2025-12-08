@@ -1,5 +1,5 @@
 ﻿作者：无损平方集团
-FreeMove_Square 1.0 -- 提供和FreeMove一样的安全移动目录，并且附带更多强劲的小玩意儿。
+SquareMove1.0.1 -- 提供和FreeMove一样的安全移动目录，并且附带更多强劲的小玩意儿。
 本程序不提供任何联网服务，也不收集任何用户数据，目前处于测试阶段，使用本工具造成的任何问题与本程序作者无关。
 版权所有(C) 2025  tomh500
 
@@ -14,4 +14,4 @@ GNU 通用公共许可证。
 你应该已经收到了一份 GNU 通用公共许可证的副本，
 如果没有，请访问 <http://www.gnu.org/licenses/>。
 
-项目地址：https://github.com/tomh500/FreeMove_Square
+项目地址：https://github.com/tomh500/SquareMove
