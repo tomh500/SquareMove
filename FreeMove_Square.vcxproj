@@ -168,6 +168,7 @@
     <ResourceCompile Include="src\UI\resource.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ShortcutManager.cpp" />
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\Core\FileTools.cpp" />
     <ClCompile Include="src\FreeMove_Square.cpp" />

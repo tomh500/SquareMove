@@ -7,7 +7,10 @@
     #include "FileTools.h" 
     #include "Flag.h"
     namespace ft = FileTools;
-
+    namespace ShortcutLogic {
+        bool IsAlreadyCreated();
+        bool CreateStartMenuShortcut();
+    }
     namespace App {
 
         CApp g_app;
@@ -166,6 +169,15 @@
         {
             switch (msg)
             {
+            case WM_INITMENUPOPUP:
+            {
+                HMENU hMenu = (HMENU)w;
+               
+                if (ShortcutLogic::IsAlreadyCreated()) {
+                    RemoveMenu(hMenu, IDM_CREATE_QUICKACCESS, MF_BYCOMMAND);
+                }
+                break;
+            }
             case WM_CREATE:
             {
 
@@ -243,20 +255,8 @@
                     SendMessageW(g_app.hBtnAdminWarn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hWarningIcon);
 
                     // 警告文字
-                    g_app.hTxtAdminWarn = CreateWindowExW(
-                        0,
-                        L"STATIC",
-                        g_strings.RequireAdmin.c_str(),
-                        WS_CHILD | WS_VISIBLE,
-                        margin + moveBtnWidth + warningMarginX + warningIconSize + 20, // 向右偏移
-                        margin + 2 * (editHeight + margin) + (warningIconSize - editHeight) / 2, // 垂直居中对齐
-                        250, // 文字宽度增加
-                        editHeight,
-                        hWnd,
-                        nullptr,
-                        g_app.hInst,
-                        nullptr
-                    );
+                    g_app.hTxtAdminWarn = CreateWindowExW(0,L"STATIC",g_strings.RequireAdmin.c_str(),WS_CHILD | WS_VISIBLE,margin
+                   + moveBtnWidth + warningMarginX + warningIconSize + 20, margin + 2 * (editHeight + margin) + (warningIconSize - editHeight) / 2, 250,editHeight,hWnd,nullptr,g_app.hInst,nullptr);
                 }
         
             break;
@@ -356,6 +356,20 @@
                             MessageBoxW(hWnd, res.message.c_str(), g_strings.MoveFailed.c_str(), MB_OK | MB_ICONERROR);
 							ft::blockmsg = 0;
                         }
+                    }
+                    break;
+                }
+                case IDM_CREATE_QUICKACCESS:
+                {
+                    if (ShortcutLogic::CreateStartMenuShortcut()) {
+                        MessageBoxW(hWnd,
+                            (g_currentLang == LANG_ZH_CN) ? L"快捷方式已添加到开始菜单。" : L"Shortcut added to Start Menu.",
+                            g_strings.title.c_str(), MB_OK | MB_ICONINFORMATION);
+                    }
+                    else {
+                        MessageBoxW(hWnd,
+                            (g_currentLang == LANG_ZH_CN) ? L"创建失败，请尝试管理员运行。" : L"Failed to create shortcut.",
+                            g_strings.title.c_str(), MB_OK | MB_ICONERROR);
                     }
                     break;
                 }

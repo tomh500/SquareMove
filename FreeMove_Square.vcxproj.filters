@@ -140,6 +140,9 @@
     <ClCompile Include="src\Funcation\PathDialog.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="ShortcutManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="src\UI\app.manifest">
