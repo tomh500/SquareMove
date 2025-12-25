@@ -134,6 +134,7 @@ namespace FileTools {
         return SetFileAttributesW(path.c_str(), attrs) != 0;
     }
 
+    /*
     MoveResult MoveWithLink(const std::wstring& src, const std::wstring& dstDir, bool hideOrigin)
     {
         MoveResult res{ false, L"" };
@@ -223,7 +224,84 @@ namespace FileTools {
         return res;
     }
 
+    */
+    // 在 FileTools.cpp 中修改 MoveWithLink 函数
+    MoveResult MoveWithLink(const std::wstring& src, const std::wstring& dstDir, bool hideOrigin)
+    {
+        MoveResult res{ false, L"" };
+        fs::path srcPath(src);
+        fs::path dstPath = fs::path(dstDir) / srcPath.filename();
 
+        // --- 1. 安全预检 ---
+        if (fs::exists(dstPath)) {
+            res.message = (g_currentLang == LANG_ZH_CN) ? L"目标路径已存在" : L"Target exists";
+            return res;
+        }
+
+        // 禁止操作系统关键目录 (新增)
+        std::wstring srcLower = src;
+        std::transform(srcLower.begin(), srcLower.end(), srcLower.begin(), ::towlower);
+        if (srcLower.find(L"c:\\windows") != std::wstring::npos || srcLower.length() < 4) {
+            res.message = (g_currentLang == LANG_ZH_CN) ? L"禁止操作系统关键目录" : L"System path protected";
+            return res;
+        }
+
+        // --- 2. 权限预检 (影子创建) ---
+        // 在临时目录试着建个链接，判断当前程序到底能不能建链接
+        std::wstring testLink = src + L".test_link";
+        if (!CreateLink(testLink, dstPath.wstring(), fs::is_directory(srcPath), res.message)) {
+            res.message = (g_currentLang == LANG_ZH_CN) ? L"权限不足，无法创建符号链接" : L"No permission for SymLink";
+            return res;
+        }
+        fs::remove(testLink); // 删掉测试链接
+
+        // --- 3. 执行数据搬运 ---
+        if (FastMode) {
+            try { fs::rename(srcPath, dstPath); }
+            catch (...) { res.message = L"Rename failed"; return res; }
+        }
+        else {
+            // 普通模式：完整复制 + 进度
+            size_t totalFiles = 0;
+            for (auto& entry : fs::recursive_directory_iterator(srcPath))
+                if (fs::is_regular_file(entry.path())) totalFiles++;
+
+            HWND hProgressWnd = ShowMoveProgress(nullptr, L"移动中...", totalFiles);
+            size_t done = 0;
+
+            if (!CopyItemWithProgress(src, dstDir, [&](size_t fileDone, size_t fileTotal) {
+                done = fileDone;
+                UpdateMoveProgress(done, totalFiles);
+                })) {
+                CloseMoveProgress();
+                res.message = (g_currentLang == LANG_ZH_CN) ? L"复制失败" : L"Copy failed";
+                return res;
+            }
+            CloseMoveProgress();
+        }
+
+        // --- 4. 关键步骤：重命名原目录作为临时备份，而不是直接删除 ---
+        fs::path backupPath = srcPath.wstring() + L".bak_" + std::to_wstring(GetTickCount64());
+        if (!FastMode) {
+            try { fs::rename(srcPath, backupPath); }
+            catch (...) { /* 复制模式下如果改名失败说明原件被占用 */ }
+        }
+
+        // --- 5. 创建真正的符号链接 ---
+        if (!CreateLink(src, dstPath.wstring(), fs::is_directory(dstPath), res.message)) {
+            // 如果创建链接失败，回滚！
+            if (FastMode) fs::rename(dstPath, srcPath);
+            else fs::rename(backupPath, srcPath);
+            return res;
+        }
+
+        // --- 6. 最后清理 ---
+        if (!FastMode) fs::remove_all(backupPath);
+        if (hideOrigin) SetHidden(src);
+
+        res.success = true;
+        return res;
+    }
 
 
 }

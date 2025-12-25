@@ -5,7 +5,7 @@
 #pragma comment(lib, "Comctl32.lib")
 
 namespace FileTools {
-
+    static ULONGLONG g_lastUpdate = 0;
     static HWND g_hWnd = nullptr;
     static HWND g_hProgress = nullptr;
     static HWND g_hText = nullptr;
@@ -38,17 +38,25 @@ namespace FileTools {
 
     void UpdateMoveProgress(size_t done, size_t total)
     {
+        ULONGLONG now = GetTickCount64();
+        if (now - g_lastUpdate < 100 && done > 0 && done < total) return;
+        g_lastUpdate = now;
+
         if (!g_hProgress || !g_hText) return;
+        int percent = 0;
+        if (total > 0) {
+            percent = static_cast<int>(100.0 * done / total);
+        }
 
-        int percent = static_cast<int>(100.0 * done / total);
         SendMessage(g_hProgress, PBM_SETPOS, percent, 0);
-
-        std::wstring text = std::to_wstring(done) + L"/" + std::to_wstring(total);
+        std::wstring text = std::to_wstring(done) + L" / " + std::to_wstring(total);
         SetWindowTextW(g_hText, text.c_str());
-
-        // 刷新窗口消息
         MSG msg;
         while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
+            if (msg.message == WM_QUIT) {
+                PostQuitMessage((int)msg.wParam);
+                break;
+            }
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
