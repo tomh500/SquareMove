@@ -1,6 +1,7 @@
 #include "UIStrings.h"
 #include "Resource.h"
 #include <vector>
+#include <algorithm>
 #define zw return LANG_ZH_CN;
 #define zw1 return LANG_EN;
 
@@ -9,7 +10,7 @@ namespace App {
     Language g_currentLang = LANG_EN;
     Strings g_strings;
 
-    // ≈–∂œœµÕ≥”Ô—‘
+    // Âà§Êñ≠Á≥ªÁªüËØ≠Ë®Ä
     Language DetectLanguage() {
         WCHAR localeName[LOCALE_NAME_MAX_LENGTH] = { 0 };
         if (::GetUserDefaultLocaleName(localeName, LOCALE_NAME_MAX_LENGTH)) {
@@ -24,7 +25,7 @@ namespace App {
         return LANG_EN;
     }
 
-    // ∂¡»°◊ ‘¥ ini µΩƒ⁄¥Ê
+    // ËØªÂèñËµÑÊ∫ê ini Âà∞ÂÜÖÂ≠ò
     std::wstring LoadLangResource(HINSTANCE hInst) {
         HRSRC hRes = FindResourceW(hInst, MAKEINTRESOURCE(IDR_LANG_INI), RT_RCDATA);
         if (!hRes) return L"";
@@ -38,7 +39,7 @@ namespace App {
         const char* pData = static_cast<const char*>(LockResource(hData));
         if (!pData) return L"";
 
-        // ºÚµ•◊™ªª≥… wstring (UTF-8 -> UTF-16)
+        // ÁÆÄÂçïËΩ¨Êç¢Êàê wstring (UTF-8 -> UTF-16)
         int wlen = MultiByteToWideChar(CP_UTF8, 0, pData, size, nullptr, 0);
         std::wstring result(wlen, 0);
         MultiByteToWideChar(CP_UTF8, 0, pData, size, &result[0], wlen);
@@ -46,7 +47,7 @@ namespace App {
         return result;
     }
 
-    // Ω‚ŒˆºÚµ• ini ∏Ò Ω
+    // Ëß£ÊûêÁÆÄÂçï ini Ê†ºÂºè
     std::wstring ParseIni(const std::wstring& data, const std::wstring& section, const std::wstring& key) {
         std::wstring searchSection = L"[" + section + L"]";
         size_t secPos = data.find(searchSection);
@@ -76,79 +77,30 @@ namespace App {
         g_currentLang = DetectLanguage();
         std::wstring langData = LoadLangResource(hInstance);
 
-        //–¬‘ˆ¡À◊÷∑˚¥Æ –Ë“™‘⁄’‚¿Ô–ﬁ∏ƒ
+        // Ê†πÊçÆËØ≠Ë®ÄÁ°ÆÂÆö Section ÂêçÂ≠ó
+        std::wstring sec = (g_currentLang == LANG_ZH_CN) ? L"ZH" : L"EN";
+        g_strings.title = ParseIni(langData, sec, L"Title");
+        g_strings.SelectPath_Button = ParseIni(langData, sec, L"SelectPathButton");
+        g_strings.SelectFile_Button = ParseIni(langData, sec, L"SelectFileButton");
+        g_strings.MoveButton = ParseIni(langData, sec, L"MoveButton");
+        g_strings.MoveFailed = ParseIni(langData, sec, L"MoveFailed");
+        g_strings.UndoConfirm = ParseIni(langData, sec, L"UndoConfirm");
+        g_strings.RequireAdmin = ParseIni(langData, sec, L"RequireAdmin");
+        g_strings.Menu_File = ParseIni(langData, sec, L"Menu_File");
+        g_strings.Menu_Help = ParseIni(langData, sec, L"Menu_Help");
+        g_strings.Menu_About = ParseIni(langData, sec, L"Menu_About");
+        g_strings.Menu_Exit = ParseIni(langData, sec, L"Menu_Exit");
+        g_strings.Menu_FastMode = ParseIni(langData, sec, L"Menu_FastMode");
+        g_strings.Menu_HideOrigin = ParseIni(langData, sec, L"Menu_HideOrigin");
+        g_strings.MoveSuccess = ParseIni(langData, sec, L"MoveSuccess");
+        g_strings.FastModeWarning = ParseIni(langData, sec, L"FastModeWarning");
+        g_strings.CreateQuick = ParseIni(langData, sec, L"CreateQuick");
 
-        if (g_currentLang == LANG_ZH_CN) {
-            g_strings.title = ParseIni(langData, L"ZH", L"Title");
-            g_strings.SelectPath_Button = ParseIni(langData, L"ZH", L"SelectPathButton");
-            g_strings.SelectFile_Button = ParseIni(langData, L"ZH", L"SelectFileButton");
-            g_strings.MoveButton = ParseIni(langData, L"ZH", L"MoveButton");
-            g_strings.MoveFailed = ParseIni(langData, L"ZH", L"MoveFailed");
-            g_strings.UndoConfirm = ParseIni(langData, L"ZH", L"UndoConfirm");
-            g_strings.RequireAdmin = ParseIni(langData, L"ZH", L"RequireAdmin");
-            g_strings.Menu_FastMode = ParseIni(langData, L"ZH", L"FastMode");
-            g_strings.Menu_HideOrigin = ParseIni(langData, L"ZH", L"HideOrigin");
-            g_strings.Menu_File = ParseIni(langData, L"ZH", L"Menu_File");
-            g_strings.Menu_Help = ParseIni(langData, L"ZH", L"Menu_Help");
-            g_strings.Menu_About = ParseIni(langData, L"ZH", L"Menu_About");
-            g_strings.Menu_Exit = ParseIni(langData, L"ZH", L"Menu_Exit");
-            g_strings.Menu_FastMode = ParseIni(langData, L"ZH", L"Menu_FastMode");
-            g_strings.Menu_HideOrigin = ParseIni(langData, L"ZH", L"Menu_HideOrigin");
-            g_strings.MoveSuccess = ParseIni(langData, L"ZH", L"MoveSuccess");
-			g_strings.FastModeWarning = ParseIni(langData, L"ZH", L"FastModeWarning");
+        // ÈªòËÆ§ÂÄºÂÖúÂ∫ï
+        if (g_strings.title.empty()) {
+            g_strings.title = (g_currentLang == LANG_ZH_CN) ? L"Êó†ÊçüÂπ≥ÊñπÁßªÂä®Â∑•ÂÖ∑" : L"FreeMoveSQ";
+            std::wstring warnMsg = (g_currentLang == LANG_ZH_CN) ? L"ËØ≠Ë®ÄËµÑÊ∫êÂä†ËΩΩÂ§±Ë¥•" : L"Failed to load language resources";
+            MessageBoxW(NULL, warnMsg.c_str(), g_strings.title.c_str(), MB_OK | MB_ICONWARNING);
         }
-        else {
-            g_strings.title = ParseIni(langData, L"EN", L"Title");
-            g_strings.SelectPath_Button = ParseIni(langData, L"EN", L"SelectPathButton");
-            g_strings.SelectFile_Button = ParseIni(langData, L"EN", L"SelectFileButton");
-            g_strings.MoveButton = ParseIni(langData, L"EN", L"MoveButton");
-            g_strings.MoveFailed = ParseIni(langData, L"EN", L"MoveFailed");
-            g_strings.UndoConfirm = ParseIni(langData, L"EN", L"UndoConfirm");
-            g_strings.RequireAdmin = ParseIni(langData, L"EN", L"RequireAdmin");
-            g_strings.Menu_FastMode = ParseIni(langData, L"EN", L"FastMode");
-            g_strings.Menu_HideOrigin = ParseIni(langData, L"EN", L"HideOrigin");
-            g_strings.Menu_File = ParseIni(langData, L"EN", L"Menu_File");
-            g_strings.Menu_Help = ParseIni(langData, L"EN", L"Menu_Help");
-            g_strings.Menu_About = ParseIni(langData, L"EN", L"Menu_About");
-            g_strings.Menu_Exit = ParseIni(langData, L"EN", L"Menu_Exit");
-            g_strings.Menu_FastMode = ParseIni(langData, L"EN", L"Menu_FastMode");
-            g_strings.Menu_HideOrigin = ParseIni(langData, L"EN", L"Menu_HideOrigin");
-            g_strings.MoveSuccess = ParseIni(langData, L"EN", L"MoveSuccess");
-			g_strings.FastModeWarning = ParseIni(langData, L"EN", L"FastModeWarning");
-        }
-
-
-        // »Áπ˚Ω‚Œˆ ß∞‹£¨Ã·π©ƒ¨»œ÷µ
-        if (g_strings.title.empty())
-        {
-             g_strings.title = (g_currentLang == LANG_ZH_CN) ? L"ŒﬁÀ∆Ω∑Ω“∆∂Øπ§æﬂ£®Ω‚Œˆ ß∞‹£©" : L"FreeMoveSQ";
-			 MessageBoxW(NULL, (g_currentLang == LANG_ZH_CN) ? L"”Ô—‘◊ ‘¥º”‘ÿ ß∞‹°£" : L"Failed to load language resources, using default strings.", g_strings.title.c_str(), MB_OK | MB_ICONWARNING);
-        }
-           
-        /*
-        if (g_strings.SelectPath_Button.empty())
-            g_strings.SelectPath_Button = (g_currentLang == LANG_ZH_CN) ? L"—°‘Ò¬∑æ∂" : L"Select Path";
-
-        if (g_strings.SelectFile_Button.empty())
-            g_strings.SelectFile_Button = (g_currentLang == LANG_ZH_CN) ? L"—°‘ÒŒƒº˛" : L"Select File";
-
-        if (g_strings.MoveButton.empty())
-            g_strings.MoveButton = (g_currentLang == LANG_ZH_CN) ? L"“∆∂Ø" : L"Move";
-
-        if (g_strings.MoveFailed.empty())
-            g_strings.MoveFailed = (g_currentLang == LANG_ZH_CN) ? L"“∆∂Ø ß∞‹" : L"Move Failed";
-
-        if (g_strings.UndoConfirm.empty())
-            g_strings.UndoConfirm = (g_currentLang == LANG_ZH_CN) ? L" «∑Ò≥∑œ˙∏¸∏ƒ£ø" : L"Undo changes?";
-
-        if (g_strings.RequireAdmin.empty())
-            g_strings.RequireAdmin = (g_currentLang == LANG_ZH_CN) ? L"µ„ª˜“‘π‹¿Ì‘±…Ì∑›‘À––" : L"Require Admin Permission";
-
-        if (g_strings.Menu_FastMode.empty())
-            g_strings.Menu_FastMode = (g_currentLang == LANG_ZH_CN) ? L"øÏÀŸƒ£ Ω" : L"Fast Mode";
-        if (g_strings.Menu_HideOrigin.empty())
-            g_strings.Menu_HideOrigin = (g_currentLang == LANG_ZH_CN) ? L"Ω´‘≠œ»ƒø¬º“˛≤ÿ" : L"Set original path to hidden";
-
-            */
     }
 }

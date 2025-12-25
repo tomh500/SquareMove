@@ -65,6 +65,9 @@
     <None Include="README_EN.md">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="config\lang.ini">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\FileTools.h">

@@ -24,6 +24,7 @@ namespace App {
         wstring Menu_Exit;
 		wstring MoveSuccess;
         wstring FastModeWarning;
+        wstring CreateQuick;
 
     };
 

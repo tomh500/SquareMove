@@ -144,6 +144,7 @@
   <ItemGroup>
     <None Include=".github\workflows\build.yml" />
     <None Include="assets\conver_logo.py" />
+    <None Include="config\lang.ini" />
     <None Include="keepfile.gitaction" />
     <None Include="README.md" />
     <None Include="README_EN.md" />
